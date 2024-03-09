@@ -284,7 +284,8 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self._refreshBoard()
 
     def _openImg(self):
-        fileName, fileType = QFileDialog.getOpenFileName(self,"选取文件","All Files (*)")
+        # fileName, fileType = QFileDialog.getOpenFileName(self,"选取文件","All Files (*)")
+        fileName, fileType = QFileDialog.getOpenFileName(self,"选取文件",".","All Files (*)")
         self.img = QImage(fileName)
         self.oriImg = self.img.copy()
         self._refreshBoard()
