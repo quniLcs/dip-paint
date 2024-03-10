@@ -79,6 +79,41 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.board.setPixmap(pix)
         self.scrollAreaWidgetContents.resize(pix.size())
 
+    def _clear(self):
+        self.img.fill(Qt.white)
+        self._refreshBoard()
+
+    def _save(self):
+        filePath, _ = QFileDialog.getSaveFileName(self, "保存图像", "","PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) ")
+        if filePath == "": return
+        self.img.save(filePath)
+
+    def _openImg(self):
+        # fileName, fileType = QFileDialog.getOpenFileName(self,"选取文件","All Files (*)")
+        fileName, fileType = QFileDialog.getOpenFileName(self,"选取文件",".","All Files (*)")
+        self.img = QImage(fileName)
+        self.oriImg = self.img.copy()
+        self._refreshBoard()
+
+    def _clearDraw(self):
+        self.img = self.oriImg.copy()
+        self._refreshBoard()
+
+    def _wiseAction(self,action):
+        if action == 'clock':
+            transform = QTransform()
+            transform.rotate(90)
+            self.img = self.img.transformed(transform)
+        elif action == 'antiClock':
+            transform = QTransform()
+            transform.rotate(-90)
+            self.img = self.img.transformed(transform)
+        elif action == 'verFilp':
+            self.img = self.img.mirrored(True,False)
+        else:
+            self.img = self.img.mirrored(False,True)
+        self._refreshBoard()
+
     def _drawPen(self,event):
         painter = self._initPainter()
         boardPos = self._getPosFromGlobal(event.pos())
@@ -126,6 +161,27 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.penColor = self.backColor
         self._drawPen(event)
 
+    def _choosePreColor(self):
+        colorName,self.preColor= self._getColor()
+        self.preColorBtn.setStyleSheet("background-color:%s" % colorName)
+
+    def _chooseBackColor(self):
+        colorName,self.backColor= self._getColor()
+        self.backColorBtn.setStyleSheet("background-color:%s" % colorName)
+
+    def _choosePenSize(self):
+        self.penSize = int(self.penSizeBtn.currentText())
+
+    def _openBaseAdjustDialog(self):
+        self.baseAdjustDialog = BaseAdjustDialog()
+        self.baseAdjustDialog.dialogRejected.connect(self._baseAdjustDialogRejected)
+        self.baseAdjustDialog.dialogAccepted.connect(self._baseAdjustDialogAccepted)
+        self.baseAdjustDialog.brightSliderReleased.connect(self._adjustBright)
+        self.baseAdjustDialog.warmSliderReleased.connect(self._adjustWarm)
+        self.baseAdjustDialog.saturabilitySliderReleased.connect(self._adjustSaturation)
+        self.baseAdjustDialog.contrastSliderReleased.connect(self._adjustContrast)
+        self.baseAdjustDialog.show()
+
     def mousePressEvent(self, event: QMouseEvent) -> None:
         if event.button() == Qt.LeftButton:
             self.penColor = self.preColor
@@ -161,16 +217,6 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         boardPos = self.board.mapFromGlobal(globalPos)
         return boardPos
 
-    def _openBaseAdjustDialog(self):
-        self.baseAdjustDialog = BaseAdjustDialog()
-        self.baseAdjustDialog.dialogRejected.connect(self._baseAdjustDialogRejected)
-        self.baseAdjustDialog.dialogAccepted.connect(self._baseAdjustDialogAccepted)
-        self.baseAdjustDialog.brightSliderReleased.connect(self._adjustBright)
-        self.baseAdjustDialog.warmSliderReleased.connect(self._adjustWarm)
-        self.baseAdjustDialog.saturabilitySliderReleased.connect(self._adjustSaturation)
-        self.baseAdjustDialog.contrastSliderReleased.connect(self._adjustContrast)
-        self.baseAdjustDialog.show()
-
     def _baseAdjustDialogAccepted(self):
         self.adjusting = False
         self.img = self.bufferImg
@@ -204,18 +250,6 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self._refreshButtons()
         toolBtn = self.sender()
         toolBtn.setChecked(True)
-
-
-    def _choosePenSize(self):
-        self.penSize = int(self.penSizeBtn.currentText())
-
-    def _choosePreColor(self):
-        colorName,self.preColor= self._getColor()
-        self.preColorBtn.setStyleSheet("background-color:%s" % colorName)
-
-    def _chooseBackColor(self):
-        colorName,self.backColor= self._getColor()
-        self.backColorBtn.setStyleSheet("background-color:%s" % colorName)
 
     def _getColor(self):
         color = QColorDialog.getColor()
@@ -253,40 +287,6 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
     def _refreshButtons(self):
         [btn.setChecked(False) for btn in self.toolBtns]
 
-    def _save(self):
-        filePath, _ = QFileDialog.getSaveFileName(self, "保存图像", "","PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) ")
-        if filePath == "": return
-        self.img.save(filePath)
-
-    def _clear(self):
-        self.img.fill(Qt.white)
-        self._refreshBoard()
-
-    def _clearDraw(self):
-        self.img = self.oriImg.copy()
-        self._refreshBoard()
-
-    def _wiseAction(self,action):
-        if action == 'clock':
-            transform = QTransform()
-            transform.rotate(90)
-            self.img = self.img.transformed(transform)
-        elif action == 'antiClock':
-            transform = QTransform()
-            transform.rotate(-90)
-            self.img = self.img.transformed(transform)
-        elif action == 'verFilp':
-            self.img = self.img.mirrored(True,False)
-        else:
-            self.img = self.img.mirrored(False,True)
-        self._refreshBoard()
-
-    def _openImg(self):
-        # fileName, fileType = QFileDialog.getOpenFileName(self,"选取文件","All Files (*)")
-        fileName, fileType = QFileDialog.getOpenFileName(self,"选取文件",".","All Files (*)")
-        self.img = QImage(fileName)
-        self.oriImg = self.img.copy()
-        self._refreshBoard()
 
 def main():
     app = QApplication(sys.argv)
