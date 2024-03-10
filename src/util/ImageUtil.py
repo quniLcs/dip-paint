@@ -223,21 +223,15 @@ def sharpen(image:QImage):
     return CvMatToQImage(dst)
 
 def canny(image:QImage):
-    blurred = cv.GaussianBlur(QImageToCvMat(image), (3, 3), 0)
+    src = QImageToCvMat(image)
+    blurred = cv.GaussianBlur(src, (3, 3), 0)
     gray = cv.cvtColor(blurred, cv.COLOR_RGB2GRAY)
     edges = cv.Canny(gray, 50, 150)
     return CvMatToQImage(edges)
 
 def gray(image:QImage):
     src = QImageToCvMat(image)
-    # incomingImage = image.convertToFormat(QImage.Format_RGBA8888)
-    # width = incomingImage.width()
-    # height = incomingImage.height()
-    # ptr = incomingImage.bits()
-    # ptr.setsize(height * width * 4)
-    # src = np.frombuffer(ptr, np.uint8).reshape((height, width, 4))
-    # src = np.ones((413, 658, 4), np.uint8) * 255
-    gray = cv.cvtColor(src,cv.COLOR_RGB2GRAY)
+    gray = cv.cvtColor(src, cv.COLOR_RGB2GRAY)
     return CvMatToQImage(gray)
 
 def binaryzation(image:QImage):
