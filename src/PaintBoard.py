@@ -91,14 +91,13 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self._refreshBoard()
 
     def _save(self):
-        filePath, _ = QFileDialog.getSaveFileName(self, "保存图像", "","PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) ")
+        filePath, fileType = QFileDialog.getSaveFileName(self, "保存图像", "", "PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) ")
         if filePath == "": return
         self.img.save(filePath)
 
     def _openImg(self):
-        # fileName, fileType = QFileDialog.getOpenFileName(self,"选取文件","All Files (*)")
-        fileName, fileType = QFileDialog.getOpenFileName(self,"选取文件",".","All Files (*)")
-        self.img = QImage(fileName)
+        filePath, fileType = QFileDialog.getOpenFileName(self, "选取文件", "", "All Files (*)")
+        self.img = QImage(filePath)
         self.oriImg = self.img.copy()
         self._refreshBoard()
 
