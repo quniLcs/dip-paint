@@ -57,6 +57,15 @@ def adjustBright(image:QImage,value) -> QImage:
             newImage.setPixel(h,w,qRgba(red, green, blue, pixel.alpha()))
     return newImage
 
+
+def adjustBrightFaster(image:QImage,value) -> QImage:
+    src = QImageToCvMat(image)
+    dst = src + value
+    dst[dst < 0] = 0
+    dst[dst > 255] = 255
+    return CvMatToQImage(dst)
+
+
 # 调整暖色调
 def adjustWarm(image:QImage,value) -> QImage:
     width, height = image.width(), image.height()
@@ -172,17 +181,21 @@ def binaryzation(image:QImage):
 def invert(image:QImage):
     src = QImageToCvMat(image)
     # res = cv.bitwise_not(src)
-    res = src.copy()
+    # res = src.copy()
     if len(src.shape) == 2:
-        rows, columns = src.shape
-        for row in range(rows):
-            for col in range(columns):
-                res[row, col] = (255 - src[row, col])
+        res = 255 - src
+        # rows, columns = src.shape
+        # for row in range(rows):
+        #     for col in range(columns):
+        #         res[row, col] = (255 - src[row, col])
     else:
-        rows, columns, channels = src.shape
-        for row in range(rows):
-            for col in range(columns):
-                res[row, col] = (255 - src[row, col][0], 255 - src[row, col][1], 255 - src[row, col][2],src[row, col][3])
+        res = np.zeros_like(src)
+        res[:, :, 0:3] = 255 - src[:, :, 0:3]
+        res[:, :, 3] = src[:, :, 3]
+        # rows, columns, channels = src.shape
+        # for row in range(rows):
+        #     for col in range(columns):
+        #         res[row, col] = (255 - src[row, col][0], 255 - src[row, col][1], 255 - src[row, col][2], src[row, col][3])
     return CvMatToQImage(res)
 
 def emboss(image:QImage):
