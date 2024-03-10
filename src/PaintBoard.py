@@ -67,10 +67,15 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.embossBtn.clicked.connect(self._emboss)
         list(map(lambda btn:btn.clicked.connect(self._toolBoxClicked),self.toolBtns))
 
+    def _toolBoxClicked(self):
+        self._refreshButtons()
+        toolBtn = self.sender()
+        toolBtn.setChecked(True)
+
     def _initPainter(self,board = None):
         painter = QPainter(board or self.img)
         painter.setRenderHint(QPainter.Antialiasing, True)
-        painter.setPen(QPen(self.penColor, self.penSize,Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+        painter.setPen(QPen(self.penColor, self.penSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
         return painter
 
     def _refreshBoard(self):
@@ -273,11 +278,6 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.adjusting = True
         self.bufferImg = ImageUtil.adjustSaturationFaster(self.img, value)
         self.update()
-
-    def _toolBoxClicked(self):
-        self._refreshButtons()
-        toolBtn = self.sender()
-        toolBtn.setChecked(True)
 
     def _getColor(self):
         color = QColorDialog.getColor()
