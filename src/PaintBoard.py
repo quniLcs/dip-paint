@@ -130,7 +130,7 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
 
     def _adjustContrast(self,value):
         self.adjusting = True
-        self.bufferImg = ImageUtil.adjustContrast(self.img, value)
+        self.bufferImg = ImageUtil.adjustContrastFaster(self.img, value)
         self.update()
 
     def _adjustBright(self,value):

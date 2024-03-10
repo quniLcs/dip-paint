@@ -165,6 +165,25 @@ def adjustContrast(image:QImage,value) -> QImage:
     return newImage
 
 
+def adjustContrastFaster(image:QImage,value) -> QImage:
+    value /= 100.0
+    if value >= 0:
+        value = 1 / (1 - value) - 1
+
+    src = QImageToCvMat(image)
+    src = src.astype(np.float32)
+
+    dst = np.zeros_like(src)
+    dst[:, :, 0:3] = (src[:, :, 0:3] - 127) * value + src[:, :, 0:3]
+    dst[:, :, 3] = src[:, :, 3]
+
+    dst[dst < 0] = 0
+    dst[dst > 255] = 255
+
+    dst = dst.astype(np.uint8)
+    return CvMatToQImage(dst)
+
+
 def QImageToCvMat(incomingImage):
     incomingImage = incomingImage.convertToFormat(QImage.Format_RGBA8888)
     width = incomingImage.width()
