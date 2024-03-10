@@ -233,6 +233,35 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.baseAdjustDialog.contrastSliderReleased.connect(self._adjustContrast)
         self.baseAdjustDialog.show()
 
+    def _baseAdjustDialogRejected(self):
+        self.adjusting = False
+        self.update()
+
+    def _baseAdjustDialogAccepted(self):
+        self.adjusting = False
+        self.img = self.bufferImg
+        self.update()
+
+    def _adjustBright(self,value):
+        self.adjusting = True
+        self.bufferImg = ImageUtil.adjustBrightFaster(self.img, value)
+        self.update()
+
+    def _adjustWarm(self,value):
+        self.adjusting = True
+        self.bufferImg = ImageUtil.adjustWarmFaster(self.img, value)
+        self.update()
+
+    def _adjustSaturation(self,value):
+        self.adjusting = True
+        self.bufferImg = ImageUtil.adjustSaturationFaster(self.img, value)
+        self.update()
+
+    def _adjustContrast(self,value):
+        self.adjusting = True
+        self.bufferImg = ImageUtil.adjustContrastFaster(self.img, value)
+        self.update()
+
     def _blur(self):
         self.img = ImageUtil.blur(self.img)
         self._refreshBoard()
@@ -260,35 +289,6 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
     def _emboss(self):
         self.img = ImageUtil.emboss(self.img)
         self._refreshBoard()
-
-    def _baseAdjustDialogAccepted(self):
-        self.adjusting = False
-        self.img = self.bufferImg
-        self.update()
-
-    def _baseAdjustDialogRejected(self):
-        self.adjusting = False
-        self.update()
-
-    def _adjustContrast(self,value):
-        self.adjusting = True
-        self.bufferImg = ImageUtil.adjustContrastFaster(self.img, value)
-        self.update()
-
-    def _adjustBright(self,value):
-        self.adjusting = True
-        self.bufferImg = ImageUtil.adjustBrightFaster(self.img,value)
-        self.update()
-
-    def _adjustWarm(self,value):
-        self.adjusting = True
-        self.bufferImg = ImageUtil.adjustWarmFaster(self.img,value)
-        self.update()
-
-    def _adjustSaturation(self,value):
-        self.adjusting = True
-        self.bufferImg = ImageUtil.adjustSaturationFaster(self.img, value)
-        self.update()
 
 
 def main():
