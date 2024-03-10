@@ -1,12 +1,10 @@
 # coding = utf-8
 
-from PyQt5.QtGui import QImage,qRed,qGreen,qBlue,qRgba,qAlpha,QColor
+from PyQt5.QtGui import QImage
 import cv2 as cv
 import numpy as np
-import copy
+# import copy
 
-def bound(low,high,value):
-    return low if value < low else high if value > high else value
 
 def getPixel(x,y,pixels,w):
     i = (x + (y * w)) * 4
@@ -40,26 +38,6 @@ def getCardinalPoints(haveSeen, centerPos,w,h):
     return points
 
 
-
-# 调整亮度
-def adjustBright(image:QImage,value) -> QImage:
-    width, height = image.width(), image.height()
-    newImage = QImage(width, height, QImage.Format_RGBA8888)
-    for w in range(width):
-        for h in range(height):
-            pixel = QColor(image.pixel(w, h))
-            red = (pixel.red() + value)
-            red = bound(0,255,red)
-            green = (pixel.green() + value)
-            green = bound(0, 255, green)
-            blue = (pixel.blue() + value)
-            blue = bound(0,255,blue)
-            # if red != 205:
-            #     pass
-            newImage.setPixel(w, h, qRgba(red, green, blue, pixel.alpha()))
-    return newImage
-
-
 def adjustBrightFaster(image:QImage,value) -> QImage:
     src = QImageToCvMat(image)
     src = src.astype(np.int16)
@@ -73,26 +51,6 @@ def adjustBrightFaster(image:QImage,value) -> QImage:
 
     dst = dst.astype(np.uint8)
     return CvMatToQImage(dst)
-
-
-# 调整暖色调
-def adjustWarm(image:QImage,value) -> QImage:
-    width, height = image.width(), image.height()
-    newImage = QImage(width, height, QImage.Format_RGBA8888)
-    for w in range(width):
-        for h in range(height):
-            pixel = QColor(image.pixel(w, h))
-            red, green, blue = pixel.red(), pixel.green(), pixel.blue()
-            if value >= 0:
-                red += value
-                red = bound(0,255,red)
-                green += value
-                green = bound(0,255,green)
-            else:
-                blue += abs(value)
-                blue = bound(0,255,blue)
-            newImage.setPixel(w, h, qRgba(red, green, blue, pixel.alpha()))
-    return newImage
 
 
 def adjustWarmFaster(image:QImage,value) -> QImage:
@@ -115,22 +73,6 @@ def adjustWarmFaster(image:QImage,value) -> QImage:
     return CvMatToQImage(dst)
 
 
-# 调整饱和度
-def adjustSaturation(image:QImage,value) -> QImage:
-    width, height = image.width(), image.height()
-    newImage = QImage(width, height, QImage.Format_RGBA8888)
-    for w in range(width):
-        for h in range(height):
-            pixel = QColor(image.pixel(w, h)).toHsl()
-            H = pixel.hue()
-            S = pixel.saturation() + value
-            L = pixel.lightness()
-            S = bound(0,255,S)
-            pixel.setHsl(H, S, L);
-            newImage.setPixel(w, h, qRgba(pixel.red(), pixel.green(), pixel.blue(), pixel.alpha()))
-    return newImage
-
-
 def adjustSaturationFaster(image:QImage,value) -> QImage:
     src = QImageToCvMat(image)
     hls = cv.cvtColor(src, cv.COLOR_RGB2HLS)
@@ -147,22 +89,6 @@ def adjustSaturationFaster(image:QImage,value) -> QImage:
     dst = cv.cvtColor(dst, cv.COLOR_HLS2RGB)
     dst = cv.cvtColor(dst, cv.COLOR_RGB2RGBA)
     return CvMatToQImage(dst)
-
-
-# 调整对比度
-def adjustContrast(image:QImage,value) -> QImage:
-    width, height = image.width(), image.height()
-    newImage = QImage(width, height, QImage.Format_RGBA8888)
-    if value >= 0:
-        value = 1 / (1 - value / 100.0) - 1
-    else:
-        value /= 100.0
-    for w in range(width):
-        for h in range(height):
-            pixel = QColor(image.pixel(w, h))
-            color = [bound(0,255,(c - 127) * value + c) for c in [pixel.red(), pixel.green(), pixel.blue()]]
-            newImage.setPixel(w, h, qRgba(*color, pixel.alpha()))
-    return newImage
 
 
 def adjustContrastFaster(image:QImage,value) -> QImage:
