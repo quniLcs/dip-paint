@@ -204,6 +204,11 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.penColor = self.backColor
         self._drawPen(event)
 
+    def _getColor(self):
+        color = QColorDialog.getColor()
+        colorName = color.name()
+        return colorName,color
+
     def _choosePreColor(self):
         colorName,self.preColor= self._getColor()
         self.preColorBtn.setStyleSheet("background-color:%s" % colorName)
@@ -281,11 +286,6 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.adjusting = True
         self.bufferImg = ImageUtil.adjustSaturationFaster(self.img, value)
         self.update()
-
-    def _getColor(self):
-        color = QColorDialog.getColor()
-        colorName = color.name()
-        return colorName,color
 
     def _refreshButtons(self):
         [btn.setChecked(False) for btn in self.toolBtns]
