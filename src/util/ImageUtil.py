@@ -130,6 +130,25 @@ def adjustSaturation(image:QImage,value) -> QImage:
             newImage.setPixel(w, h, qRgba(pixel.red(), pixel.green(), pixel.blue(), pixel.alpha()))
     return newImage
 
+
+def adjustSaturationFaster(image:QImage,value) -> QImage:
+    src = QImageToCvMat(image)
+    hls = cv.cvtColor(src, cv.COLOR_RGB2HLS)
+    hls = hls.astype(np.int16)
+
+    dst = np.zeros_like(hls)
+    dst[:, :, 0:2] = hls[:, :, 0:2]
+    dst[:, :, 2] = hls[:, :, 2] + value
+
+    dst[dst < 0] = 0
+    dst[dst > 255] = 255
+
+    dst = dst.astype(np.uint8)
+    dst = cv.cvtColor(dst, cv.COLOR_HLS2RGB)
+    dst = cv.cvtColor(dst, cv.COLOR_RGB2RGBA)
+    return CvMatToQImage(dst)
+
+
 # 调整对比度
 def adjustContrast(image:QImage,value) -> QImage:
     width, height = image.width(), image.height()

@@ -145,7 +145,7 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
 
     def _adjustSaturation(self,value):
         self.adjusting = True
-        self.bufferImg = ImageUtil.adjustSaturation(self.img, value)
+        self.bufferImg = ImageUtil.adjustSaturationFaster(self.img, value)
         self.update()
 
     def _drawLine(self,event):
