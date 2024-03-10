@@ -111,6 +111,9 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         painter.setPen(QPen(self.penColor, self.penSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
         return painter
 
+    def _refreshButtons(self):
+        [btn.setChecked(False) for btn in self.toolBtns]
+
     def _refreshBoard(self):
         pix = QPixmap.fromImage(self.img)
         self.board.resize(pix.size())
@@ -287,16 +290,12 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.bufferImg = ImageUtil.adjustSaturationFaster(self.img, value)
         self.update()
 
-    def _refreshButtons(self):
-        [btn.setChecked(False) for btn in self.toolBtns]
-
 
 def main():
     app = QApplication(sys.argv)
     application = PaintBoard()
     application.show()
     sys.exit(app.exec_())
-
 
 
 if __name__ == '__main__':
