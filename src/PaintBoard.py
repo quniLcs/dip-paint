@@ -44,10 +44,10 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self._refreshBoard()
 
     def _establishConnections(self):
-        self.actionNew.triggered.connect(self._clear)
-        self.actionClear.triggered.connect(self._clear)
+        self.actionNew.triggered.connect(self._new)
         self.actionSave.triggered.connect(self._save)
         self.actionOpenImg.triggered.connect(self._openImg)
+        self.actionClear.triggered.connect(self._clear)
         self.actionClearDraw.triggered.connect(self._clearDraw)
         self.actionClockWise.triggered.connect(partial(self._wiseAction,'clock'))
         self.actionAntiClockWise.triggered.connect(partial(self._wiseAction,'antiClock'))
@@ -84,8 +84,10 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.board.setPixmap(pix)
         self.scrollAreaWidgetContents.resize(pix.size())
 
-    def _clear(self):
+    def _new(self):
         self.img.fill(Qt.white)
+        self.bufferImg = self.img.copy()
+        self.oriImg = self.img.copy()
         self._refreshBoard()
 
     def _save(self):
@@ -98,6 +100,10 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         fileName, fileType = QFileDialog.getOpenFileName(self,"选取文件",".","All Files (*)")
         self.img = QImage(fileName)
         self.oriImg = self.img.copy()
+        self._refreshBoard()
+
+    def _clear(self):
+        self.img.fill(Qt.white)
         self._refreshBoard()
 
     def _clearDraw(self):
