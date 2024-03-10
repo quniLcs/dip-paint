@@ -114,7 +114,7 @@ def QImageToCvMat(incomingImage):
     ptr = incomingImage.bits()
     ptr.setsize(height * width * 4)
     arr = np.frombuffer(ptr, np.uint8).reshape((height, width, 4))
-    return arr
+    return arr.copy()
 
 def CvMatToQImage(cvMat):
     if len(cvMat.shape) == 2:
@@ -153,6 +153,13 @@ def canny(image:QImage):
 
 def gray(image:QImage):
     src = QImageToCvMat(image)
+    # incomingImage = image.convertToFormat(QImage.Format_RGBA8888)
+    # width = incomingImage.width()
+    # height = incomingImage.height()
+    # ptr = incomingImage.bits()
+    # ptr.setsize(height * width * 4)
+    # src = np.frombuffer(ptr, np.uint8).reshape((height, width, 4))
+    # src = np.ones((413, 658, 4), np.uint8) * 255
     gray = cv.cvtColor(src,cv.COLOR_RGB2GRAY)
     return CvMatToQImage(gray)
 
@@ -187,4 +194,7 @@ def emboss(image:QImage):
     return CvMatToQImage(dst)
 
 
-
+if __name__ == '__main__':
+    src = np.ones((413, 658, 4), np.uint8) * 255
+    gray = cv.cvtColor(src, cv.COLOR_RGB2GRAY)
+    pass
