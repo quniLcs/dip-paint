@@ -47,14 +47,16 @@ def adjustBright(image:QImage,value) -> QImage:
     newImage = QImage(width,height,QImage.Format_RGBA8888)
     for h in range(height):
         for w in range(width):
-            pixel = QColor(image.pixel(h,w))
+            pixel = QColor(image.pixel(w,h))
             red = (pixel.red() + value)
             red = bound(0,255,red)
             green = (pixel.green() + value)
             green = bound(0, 255, green)
             blue = (pixel.blue() + value)
             blue = bound(0,255,blue)
-            newImage.setPixel(h,w,qRgba(red, green, blue, pixel.alpha()))
+            # if red != 205:
+            #     pass
+            newImage.setPixel(w,h,qRgba(red, green, blue, pixel.alpha()))
     return newImage
 
 
