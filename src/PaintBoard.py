@@ -140,7 +140,7 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
 
     def _adjustWarm(self,value):
         self.adjusting = True
-        self.bufferImg = ImageUtil.adjustWarm(self.img,value)
+        self.bufferImg = ImageUtil.adjustWarmFaster(self.img,value)
         self.update()
 
     def _adjustSaturation(self,value):

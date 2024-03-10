@@ -62,11 +62,16 @@ def adjustBright(image:QImage,value) -> QImage:
 
 def adjustBrightFaster(image:QImage,value) -> QImage:
     src = QImageToCvMat(image)
+    src = src.astype(np.int16)
+
     dst = np.zeros_like(src)
     dst[:, :, 0:3] = src[:, :, 0:3] + value
     dst[:, :, 3] = src[:, :, 3]
+
     dst[dst < 0] = 0
     dst[dst > 255] = 255
+
+    dst = dst.astype(np.uint8)
     return CvMatToQImage(dst)
 
 
@@ -78,7 +83,7 @@ def adjustWarm(image:QImage,value) -> QImage:
         for h in range(height):
             pixel = QColor(image.pixel(w, h))
             red, green, blue = pixel.red(), pixel.green(), pixel.blue()
-            if value >=0 :
+            if value >= 0:
                 red += value
                 red = bound(0,255,red)
                 green += value
@@ -88,6 +93,27 @@ def adjustWarm(image:QImage,value) -> QImage:
                 blue = bound(0,255,blue)
             newImage.setPixel(w, h, qRgba(red, green, blue, pixel.alpha()))
     return newImage
+
+
+def adjustWarmFaster(image:QImage,value) -> QImage:
+    src = QImageToCvMat(image)
+    src = src.astype(np.int16)
+
+    dst = np.zeros_like(src)
+    if value >= 0:
+        dst[:, :, 0:2] = src[:, :, 0:2] + value
+        dst[:, :, 2:4] = src[:, :, 2:4]
+    else:
+        dst[:, :, 0:2] = src[:, :, 0:2]
+        dst[:, :, 2] = src[:, :, 2] + abs(value)
+        dst[:, :, 3] = src[:, :, 3]
+
+    dst[dst < 0] = 0
+    dst[dst > 255] = 255
+
+    dst = dst.astype(np.uint8)
+    return CvMatToQImage(dst)
+
 
 # 调整饱和度
 def adjustSaturation(image:QImage,value) -> QImage:
