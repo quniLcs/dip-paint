@@ -37,6 +37,7 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
 
     def _initDefaultBoard(self):
         self.img = QImage(self.scrollAreaWidgetContents.size(), QImage.Format_RGB32)
+        # self.scrollAreaWidgetContents.size() is (658, 413)
         self.img.fill(Qt.white)
         self.bufferImg = self.img.copy()
         self.oriImg = self.img.copy()
@@ -71,6 +72,12 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         painter.setRenderHint(QPainter.Antialiasing, True)
         painter.setPen(QPen(self.penColor, self.penSize,Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
         return painter
+
+    def _refreshBoard(self):
+        pix = QPixmap.fromImage(self.img)
+        self.board.resize(pix.size())
+        self.board.setPixmap(pix)
+        self.scrollAreaWidgetContents.resize(pix.size())
 
     def _drawPen(self,event):
         painter = self._initPainter()
@@ -245,12 +252,6 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
 
     def _refreshButtons(self):
         [btn.setChecked(False) for btn in self.toolBtns]
-
-    def _refreshBoard(self):
-        pix = QPixmap.fromImage(self.img)
-        self.board.resize(pix.size())
-        self.board.setPixmap(pix)
-        self.scrollAreaWidgetContents.resize(pix.size())
 
     def _save(self):
         filePath, _ = QFileDialog.getSaveFileName(self, "保存图像", "","PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) ")
