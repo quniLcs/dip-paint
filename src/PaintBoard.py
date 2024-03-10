@@ -58,10 +58,10 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
 
     def paintEvent(self, event: QPaintEvent) -> None:
         if self.drawing and True in [btn.isChecked() for btn in self.toolBtns[2:5]] or self.adjusting:
-            self.board.setPixmap(QPixmap.fromImage(self.bufferImg))
+            pix = QPixmap.fromImage(self.bufferImg)
         else:
             pix = QPixmap.fromImage(self.img)
-            self.board.setPixmap(pix)
+        self.board.setPixmap(pix)
 
     def _getPosFromGlobal(self,pos):
         globalPos = self.mapToGlobal(pos)
