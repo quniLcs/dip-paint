@@ -72,6 +72,53 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         painter.setPen(QPen(self.penColor, self.penSize,Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
         return painter
 
+    def _drawPen(self,event):
+        painter = self._initPainter()
+        boardPos = self._getPosFromGlobal(event.pos())
+        painter.drawLine(self.lastPoint, boardPos)
+        self.lastPoint = boardPos
+        self.update()
+
+    def _drawBucket(self,event):
+        boardPos = self._getPosFromGlobal(event.pos())
+        fillPositions = ImageUtil.floodFill(self.img,boardPos)
+        painter = self._initPainter()
+        [painter.drawPoint(x,y) for x,y in fillPositions]
+
+    def _drawRect(self,event):
+        boardPos = self._getPosFromGlobal(event.pos())
+        if self.drawing:
+            self.bufferImg = self.img.copy()
+            painter = self._initPainter(board=self.bufferImg)
+            painter.drawRect(QRect(self.startPoint, boardPos))
+        else:
+            painter = self._initPainter()
+            painter.drawRect(QRect(self.startPoint, self.endPoint))
+
+    def _drawLine(self,event):
+        boardPos = self._getPosFromGlobal(event.pos())
+        if self.drawing:
+            self.bufferImg = self.img.copy()
+            painter = self._initPainter(board=self.bufferImg)
+            painter.drawLine(self.startPoint, boardPos)
+        else:
+            painter = self._initPainter()
+            painter.drawLine(self.startPoint, self.endPoint)
+
+    def _drawEllipse(self,event):
+        boardPos = self._getPosFromGlobal(event.pos())
+        if self.drawing:
+            self.bufferImg = self.img.copy()
+            painter = self._initPainter(board=self.bufferImg)
+            painter.drawEllipse(QRect(self.startPoint, boardPos))
+        else:
+            painter = self._initPainter()
+            painter.drawEllipse(QRect(self.startPoint, self.endPoint))
+
+    def _drawErase(self,event):
+        self.penColor = self.backColor
+        self._drawPen(event)
+
     def mousePressEvent(self, event: QMouseEvent) -> None:
         if event.button() == Qt.LeftButton:
             self.penColor = self.preColor
@@ -144,54 +191,6 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
     def _adjustSaturation(self,value):
         self.adjusting = True
         self.bufferImg = ImageUtil.adjustSaturationFaster(self.img, value)
-        self.update()
-
-    def _drawLine(self,event):
-        boardPos = self._getPosFromGlobal(event.pos())
-        if self.drawing:
-            self.bufferImg = self.img.copy()
-            painter = self._initPainter(board=self.bufferImg)
-            painter.drawLine(self.startPoint, boardPos)
-        else:
-            painter = self._initPainter()
-            painter.drawLine(self.startPoint, self.endPoint)
-
-    def _drawEllipse(self,event):
-        boardPos = self._getPosFromGlobal(event.pos())
-        if self.drawing:
-            self.bufferImg = self.img.copy()
-            painter = self._initPainter(board=self.bufferImg)
-            painter.drawEllipse(QRect(self.startPoint, boardPos))
-
-        else:
-            painter = self._initPainter()
-            painter.drawEllipse(QRect(self.startPoint, self.endPoint))
-
-    def _drawRect(self,event):
-        boardPos = self._getPosFromGlobal(event.pos())
-        if self.drawing:
-            self.bufferImg = self.img.copy()
-            painter = self._initPainter(board=self.bufferImg)
-            painter.drawRect(QRect(self.startPoint, boardPos))
-        else:
-            painter = self._initPainter()
-            painter.drawRect(QRect(self.startPoint, self.endPoint))
-
-    def _drawBucket(self,event):
-        boardPos = self._getPosFromGlobal(event.pos())
-        fillPositions = ImageUtil.floodFill(self.img,boardPos)
-        painter = self._initPainter()
-        [painter.drawPoint(x,y) for x,y in fillPositions]
-
-    def _drawErase(self,event):
-        self.penColor = self.backColor
-        self._drawPen(event)
-
-    def _drawPen(self,event):
-        painter = self._initPainter()
-        boardPos = self._getPosFromGlobal(event.pos())
-        painter.drawLine(self.lastPoint, boardPos)
-        self.lastPoint = boardPos
         self.update()
 
     def _toolBoxClicked(self):
