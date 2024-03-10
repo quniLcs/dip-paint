@@ -182,6 +182,34 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.baseAdjustDialog.contrastSliderReleased.connect(self._adjustContrast)
         self.baseAdjustDialog.show()
 
+    def _blur(self):
+        self.img = ImageUtil.blur(self.img)
+        self._refreshBoard()
+
+    def _sharpen(self):
+        self.img = ImageUtil.sharpen(self.img)
+        self._refreshBoard()
+
+    def _canny(self):
+        self.img = ImageUtil.canny(self.img)
+        self._refreshBoard()
+
+    def _binaryzation(self):
+        self.img = ImageUtil.binaryzation(self.img)
+        self._refreshBoard()
+
+    def _invert(self):
+        self.img = ImageUtil.invert(self.img)
+        self._refreshBoard()
+
+    def _gray(self):
+        self.img = ImageUtil.gray(self.img)
+        self._refreshBoard()
+
+    def _emboss(self):
+        self.img = ImageUtil.emboss(self.img)
+        self._refreshBoard()
+
     def mousePressEvent(self, event: QMouseEvent) -> None:
         if event.button() == Qt.LeftButton:
             self.penColor = self.preColor
@@ -255,34 +283,6 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         color = QColorDialog.getColor()
         colorName = color.name()
         return colorName,color
-
-    def _blur(self):
-        self.img = ImageUtil.blur(self.img)
-        self._refreshBoard()
-
-    def _canny(self):
-        self.img = ImageUtil.canny(self.img)
-        self._refreshBoard()
-
-    def _sharpen(self):
-        self.img = ImageUtil.sharpen(self.img)
-        self._refreshBoard()
-
-    def _gray(self):
-        self.img = ImageUtil.gray(self.img)
-        self._refreshBoard()
-
-    def _invert(self):
-        self.img = ImageUtil.invert(self.img)
-        self._refreshBoard()
-
-    def _emboss(self):
-        self.img = ImageUtil.emboss(self.img)
-        self._refreshBoard()
-
-    def _binaryzation(self):
-        self.img = ImageUtil.binaryzation(self.img)
-        self._refreshBoard()
 
     def _refreshButtons(self):
         [btn.setChecked(False) for btn in self.toolBtns]
