@@ -6,16 +6,16 @@ from PyQt5.Qt import *
 from src.view.BaseAdjustDialog import  Ui_baseAdjustDialog
 from functools import partial
 
+
 class BaseAdjustDialog(QDialog,Ui_baseAdjustDialog):
+
+    dialogRejected = pyqtSignal()
+    dialogAccepted = pyqtSignal()
 
     brightSliderReleased = pyqtSignal(object)
     warmSliderReleased = pyqtSignal(object)
     saturabilitySliderReleased = pyqtSignal(object)
     contrastSliderReleased = pyqtSignal(object)
-
-    dialogRejected = pyqtSignal()
-    dialogAccepted = pyqtSignal()
-
 
     def __init__(self,*args,**kwargs):
         super(BaseAdjustDialog, self).__init__(*args,**kwargs)
