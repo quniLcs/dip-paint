@@ -35,6 +35,16 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.toolBtns = [self.penBtn,self.bucketBtn,self.rectBtn,self.lineBtn,self.ellipseBtn,self.eraseButton]
         self.toolBtnEvents = [self._drawPen,self._drawBucket,self._drawRect,self._drawLine,self._drawEllipse,self._drawErase]
 
+    def mousePressEvent(self, event: QMouseEvent) -> None:
+        if event.button() == Qt.LeftButton:
+            self.penColor = self.preColor
+        elif event.button() == Qt.RightButton:
+            self.penColor = self.backColor
+
+        self.drawing = True
+        self.lastPoint = self._getPosFromGlobal(event.pos())
+        self.startPoint = self._getPosFromGlobal(event.pos())
+
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:
         if event.button() == Qt.LeftButton or event.button() == Qt.RightButton:
             self.endPoint = self._getPosFromGlobal(event.pos())
@@ -45,6 +55,18 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         if event.buttons() and Qt.LeftButton and self.drawing:
             [toolBtnEvent(event) for toolBtn,toolBtnEvent in  zip(self.toolBtns,self.toolBtnEvents) if toolBtn.isChecked()]
             self.update()
+
+    def paintEvent(self, event: QPaintEvent) -> None:
+        if self.drawing and True in [btn.isChecked() for btn in self.toolBtns[2:5]] or self.adjusting:
+            self.board.setPixmap(QPixmap.fromImage(self.bufferImg))
+        else:
+            pix = QPixmap.fromImage(self.img)
+            self.board.setPixmap(pix)
+
+    def _getPosFromGlobal(self,pos):
+        globalPos = self.mapToGlobal(pos)
+        boardPos = self.board.mapFromGlobal(globalPos)
+        return boardPos
 
     def _initDefaultBoard(self):
         self.img = QImage(self.scrollAreaWidgetContents.size(), QImage.Format_RGB32)
@@ -230,29 +252,6 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
     def _emboss(self):
         self.img = ImageUtil.emboss(self.img)
         self._refreshBoard()
-
-    def mousePressEvent(self, event: QMouseEvent) -> None:
-        if event.button() == Qt.LeftButton:
-            self.penColor = self.preColor
-        elif event.button() == Qt.RightButton:
-            self.penColor = self.backColor
-
-        self.drawing = True
-        self.lastPoint = self._getPosFromGlobal(event.pos())
-        self.startPoint = self._getPosFromGlobal(event.pos())
-
-    def paintEvent(self, event: QPaintEvent) -> None:
-        if self.drawing and True in [btn.isChecked() for btn in self.toolBtns[2:5]] or self.adjusting:
-            self.board.setPixmap(QPixmap.fromImage(self.bufferImg))
-        else:
-            pix = QPixmap.fromImage(self.img)
-            self.board.setPixmap(pix)
-
-
-    def _getPosFromGlobal(self,pos):
-        globalPos = self.mapToGlobal(pos)
-        boardPos = self.board.mapFromGlobal(globalPos)
-        return boardPos
 
     def _baseAdjustDialogAccepted(self):
         self.adjusting = False
