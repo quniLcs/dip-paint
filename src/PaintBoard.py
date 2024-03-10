@@ -135,7 +135,7 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
 
     def _adjustBright(self,value):
         self.adjusting = True
-        self.bufferImg = ImageUtil.adjustBright(self.img,value)
+        self.bufferImg = ImageUtil.adjustBrightFaster(self.img,value)
         self.update()
 
     def _adjustWarm(self,value):

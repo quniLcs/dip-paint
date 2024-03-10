@@ -62,7 +62,9 @@ def adjustBright(image:QImage,value) -> QImage:
 
 def adjustBrightFaster(image:QImage,value) -> QImage:
     src = QImageToCvMat(image)
-    dst = src + value
+    dst = np.zeros_like(src)
+    dst[:, :, 0:3] = src[:, :, 0:3] + value
+    dst[:, :, 3] = src[:, :, 3]
     dst[dst < 0] = 0
     dst[dst > 255] = 255
     return CvMatToQImage(dst)
