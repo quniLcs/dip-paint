@@ -17,11 +17,11 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
     def __init__(self,*args,**kwargs):
         super(PaintBoard, self).__init__(*args,**kwargs)
         self.setupUi(self)
-        #uic.loadUi('./view/MainWindow.ui',self)
+        # uic.loadUi('./view/MainWindow.ui',self)
         self._initParam()
         self._initDefaultBoard()
         self._establishConnections()
-        self._initPainter()
+        # self._initPainter()
 
     def _initParam(self):
         self.drawing = False
