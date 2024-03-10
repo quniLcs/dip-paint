@@ -23,13 +23,6 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self._establishConnections()
         self._initPainter()
 
-    def _initPainter(self,board = None):
-        painter = QPainter(board or self.img)
-        painter.setRenderHint(QPainter.Antialiasing, True)
-        painter.setPen(QPen(self.penColor, self.penSize,Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
-        return painter
-
-
     def _initParam(self):
         self.drawing = False
         self.adjusting = False
@@ -41,6 +34,43 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.backColor = Qt.white
         self.toolBtns = [self.penBtn,self.bucketBtn,self.rectBtn,self.lineBtn,self.ellipseBtn,self.eraseButton]
         self.toolBtnEvents = [self._drawPen,self._drawBucket,self._drawRect,self._drawLine,self._drawEllipse,self._drawErase]
+
+    def _initDefaultBoard(self):
+        self.img = QImage(self.scrollAreaWidgetContents.size(), QImage.Format_RGB32)
+        self.img.fill(Qt.white)
+        self.bufferImg = self.img.copy()
+        self.oriImg = self.img.copy()
+        self._refreshBoard()
+
+    def _establishConnections(self):
+        self.actionNew.triggered.connect(self._clear)
+        self.actionClear.triggered.connect(self._clear)
+        self.actionSave.triggered.connect(self._save)
+        self.actionOpenImg.triggered.connect(self._openImg)
+        self.actionClearDraw.triggered.connect(self._clearDraw)
+        self.actionClockWise.triggered.connect(partial(self._wiseAction,'clock'))
+        self.actionAntiClockWise.triggered.connect(partial(self._wiseAction,'antiClock'))
+        self.actionVerFilp.triggered.connect(partial(self._wiseAction,'verFilp'))
+        self.actionHorFilp.triggered.connect(partial(self._wiseAction,'horFilp'))
+        self.preColorBtn.clicked.connect(self._choosePreColor)
+        self.backColorBtn.clicked.connect(self._chooseBackColor)
+        self.penSizeBtn.currentIndexChanged.connect(self._choosePenSize)
+        self.baseAdjustBtn.clicked.connect(self._openBaseAdjustDialog)
+
+        self.blurBtn.clicked.connect(self._blur)
+        self.sharpenBtn.clicked.connect(self._sharpen)
+        self.cannyBtn.clicked.connect(self._canny)
+        self.binaryBtn.clicked.connect(self._binaryzation)
+        self.invertBtn.clicked.connect(self._invert)
+        self.grayBtn.clicked.connect(self._gray)
+        self.embossBtn.clicked.connect(self._emboss)
+        list(map(lambda btn:btn.clicked.connect(self._toolBoxClicked),self.toolBtns))
+
+    def _initPainter(self,board = None):
+        painter = QPainter(board or self.img)
+        painter.setRenderHint(QPainter.Antialiasing, True)
+        painter.setPen(QPen(self.penColor, self.penSize,Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+        return painter
 
     def mousePressEvent(self, event: QMouseEvent) -> None:
         if event.button() == Qt.LeftButton:
@@ -76,38 +106,6 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         globalPos = self.mapToGlobal(pos)
         boardPos = self.board.mapFromGlobal(globalPos)
         return boardPos
-
-    def _initDefaultBoard(self):
-        self.img = QImage(self.scrollAreaWidgetContents.size(), QImage.Format_RGB32)
-        self.img.fill(Qt.white)
-        self.bufferImg = self.img.copy()
-        self.oriImg = self.img.copy()
-        self._refreshBoard()
-
-    def _establishConnections(self):
-        self.actionNew.triggered.connect(self._clear)
-        self.actionClear.triggered.connect(self._clear)
-        self.actionSave.triggered.connect(self._save)
-        self.actionOpenImg.triggered.connect(self._openImg)
-        self.actionClearDraw.triggered.connect(self._clearDraw)
-        self.actionClockWise.triggered.connect(partial(self._wiseAction,'clock'))
-        self.actionAntiClockWise.triggered.connect(partial(self._wiseAction,'antiClock'))
-        self.actionVerFilp.triggered.connect(partial(self._wiseAction,'verFilp'))
-        self.actionHorFilp.triggered.connect(partial(self._wiseAction,'horFilp'))
-        self.preColorBtn.clicked.connect(self._choosePreColor)
-        self.backColorBtn.clicked.connect(self._chooseBackColor)
-        self.penSizeBtn.currentIndexChanged.connect(self._choosePenSize)
-        self.baseAdjustBtn.clicked.connect(self._openBaseAdjustDialog)
-
-        self.blurBtn.clicked.connect(self._blur)
-        self.sharpenBtn.clicked.connect(self._sharpen)
-        self.cannyBtn.clicked.connect(self._canny)
-        self.binaryBtn.clicked.connect(self._binaryzation)
-        self.invertBtn.clicked.connect(self._invert)
-        self.grayBtn.clicked.connect(self._gray)
-        self.embossBtn.clicked.connect(self._emboss)
-        list(map(lambda btn:btn.clicked.connect(self._toolBoxClicked),self.toolBtns))
-
 
     def _openBaseAdjustDialog(self):
         self.baseAdjustDialog = BaseAdjustDialog()
