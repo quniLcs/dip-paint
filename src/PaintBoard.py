@@ -35,6 +35,17 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.toolBtns = [self.penBtn,self.bucketBtn,self.rectBtn,self.lineBtn,self.ellipseBtn,self.eraseButton]
         self.toolBtnEvents = [self._drawPen,self._drawBucket,self._drawRect,self._drawLine,self._drawEllipse,self._drawErase]
 
+    def mouseReleaseEvent(self, event: QMouseEvent) -> None:
+        if event.button() == Qt.LeftButton or event.button() == Qt.RightButton:
+            self.endPoint = self._getPosFromGlobal(event.pos())
+            self.drawing = False
+            [toolBtnEvent(event) for toolBtn,toolBtnEvent in  zip(self.toolBtns,self.toolBtnEvents) if toolBtn.isChecked()]
+
+    def mouseMoveEvent(self, event: QMouseEvent) -> None:
+        if event.buttons() and Qt.LeftButton and self.drawing:
+            [toolBtnEvent(event) for toolBtn,toolBtnEvent in  zip(self.toolBtns,self.toolBtnEvents) if toolBtn.isChecked()]
+            self.update()
+
     def _initDefaultBoard(self):
         self.img = QImage(self.scrollAreaWidgetContents.size(), QImage.Format_RGB32)
         # self.scrollAreaWidgetContents.size() is (658, 413)
@@ -229,18 +240,6 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.drawing = True
         self.lastPoint = self._getPosFromGlobal(event.pos())
         self.startPoint = self._getPosFromGlobal(event.pos())
-
-    def mouseReleaseEvent(self, event: QMouseEvent) -> None:
-        if event.button() == Qt.LeftButton or event.button() == Qt.RightButton:
-            self.endPoint = self._getPosFromGlobal(event.pos())
-            self.drawing = False
-            [toolBtnEvent(event) for toolBtn,toolBtnEvent in  zip(self.toolBtns,self.toolBtnEvents) if toolBtn.isChecked()]
-
-    def mouseMoveEvent(self, event: QMouseEvent) -> None:
-
-        if event.buttons() and Qt.LeftButton and self.drawing:
-            [toolBtnEvent(event) for toolBtn,toolBtnEvent in  zip(self.toolBtns,self.toolBtnEvents) if toolBtn.isChecked()]
-            self.update()
 
     def paintEvent(self, event: QPaintEvent) -> None:
         if self.drawing and True in [btn.isChecked() for btn in self.toolBtns[2:5]] or self.adjusting:
