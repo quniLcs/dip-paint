@@ -158,8 +158,8 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self._refreshBoard()
 
     def _drawPen(self,event):
-        painter = self._initPainter()
         boardPos = self._getPosFromGlobal(event.pos())
+        painter = self._initPainter()
         painter.drawLine(self.lastPoint, boardPos)
         self.lastPoint = boardPos
         self.update()
