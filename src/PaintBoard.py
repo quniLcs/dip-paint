@@ -87,6 +87,9 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.actionVerFilp.triggered.connect(partial(self._wiseAction,'verFilp'))
         self.actionHorFilp.triggered.connect(partial(self._wiseAction,'horFilp'))
 
+        for toolBtn in self.toolBtns:
+            toolBtn.clicked.connect(self._toolBoxClicked)
+
         self.preColorBtn.clicked.connect(self._choosePreColor)
         self.backColorBtn.clicked.connect(self._chooseBackColor)
         self.penSizeBtn.currentIndexChanged.connect(self._choosePenSize)
@@ -99,9 +102,6 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.invertBtn.clicked.connect(self._invert)
         self.grayBtn.clicked.connect(self._gray)
         self.embossBtn.clicked.connect(self._emboss)
-
-        for toolBtn in self.toolBtns:
-            toolBtn.clicked.connect(self._toolBoxClicked)
 
     def _toolBoxClicked(self):
         self._refreshButtons()
