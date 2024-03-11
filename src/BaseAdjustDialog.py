@@ -46,10 +46,6 @@ class BaseAdjustDialog(QDialog,Ui_baseAdjustDialog):
         brightValue = self.brightSlider.value()
         self.brightLabel.setNum(brightValue)
         self.brightSliderReleased.emit(brightValue)
-    def _contrastSliderReleased(self):
-        contrastValue = self.contrastSlider.value()
-        self.contrastLabel.setNum(contrastValue)
-        self.contrastSliderReleased.emit(contrastValue)
 
     def _warmSliderReleased(self):
         warmValue = self.warmSlider.value()
@@ -60,6 +56,11 @@ class BaseAdjustDialog(QDialog,Ui_baseAdjustDialog):
         saturationValue = self.saturabilitySlider.value()
         self.saturabilityLabel.setNum(saturationValue)
         self.saturabilitySliderReleased.emit(saturationValue)
+
+    def _contrastSliderReleased(self):
+        contrastValue = self.contrastSlider.value()
+        self.contrastLabel.setNum(contrastValue)
+        self.contrastSliderReleased.emit(contrastValue)
 
     def _dialogAccepted(self):
         self.dialogAccepted.emit()
