@@ -20,9 +20,12 @@ class BaseAdjustDialog(QDialog,Ui_baseAdjustDialog):
     def __init__(self,*args,**kwargs):
         super(BaseAdjustDialog, self).__init__(*args,**kwargs)
         self.setupUi(self)
-        self.sliders = [self.brightSlider,self.saturabilitySlider,self.contrastSlider,self.warmSlider]
-        self.sliderLabels = [self.brightLabel,self.saturabilityLabel,self.contrastLabel,self.warmLabel]
+        self._initParam()
         self._establishConnections()
+
+    def _initParam(self):
+        self.sliders = [self.brightSlider, self.saturabilitySlider, self.contrastSlider, self.warmSlider]
+        self.sliderLabels = [self.brightLabel, self.saturabilityLabel, self.contrastLabel, self.warmLabel]
 
     def _establishConnections(self):
         self.dialogBtnBox.accepted.connect(self._dialogAccepted)
