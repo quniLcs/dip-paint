@@ -86,6 +86,7 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.actionAntiClockWise.triggered.connect(partial(self._wiseAction,'antiClock'))
         self.actionVerFilp.triggered.connect(partial(self._wiseAction,'verFilp'))
         self.actionHorFilp.triggered.connect(partial(self._wiseAction,'horFilp'))
+
         self.preColorBtn.clicked.connect(self._choosePreColor)
         self.backColorBtn.clicked.connect(self._chooseBackColor)
         self.penSizeBtn.currentIndexChanged.connect(self._choosePenSize)
