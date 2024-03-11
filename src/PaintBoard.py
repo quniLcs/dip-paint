@@ -98,7 +98,9 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.invertBtn.clicked.connect(self._invert)
         self.grayBtn.clicked.connect(self._gray)
         self.embossBtn.clicked.connect(self._emboss)
-        [toolBtn.clicked.connect(self._toolBoxClicked) for toolBtn in self.toolBtns]
+
+        for toolBtn in self.toolBtns:
+            toolBtn.clicked.connect(self._toolBoxClicked)
 
     def _toolBoxClicked(self):
         self._refreshButtons()

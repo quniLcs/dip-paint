@@ -30,7 +30,10 @@ class BaseAdjustDialog(QDialog,Ui_baseAdjustDialog):
     def _establishConnections(self):
         self.dialogBtnBox.accepted.connect(self._dialogAccepted)
         self.dialogBtnBox.rejected.connect(self._dialogRejected)
-        [slider.valueChanged.connect(partial(self._sliderValueChanged,slider)) for slider in self.sliders]
+
+        for slider in self.sliders:
+            slider.valueChanged.connect(partial(self._sliderValueChanged,slider))
+
         self.brightSlider.sliderReleased.connect(self._brightSliderReleased)
         self.warmSlider.sliderReleased.connect(self._warmSliderReleased)
         self.saturabilitySlider.sliderReleased.connect(self._saturabilitySliderReleased)
