@@ -2,6 +2,7 @@
 
 from src.view.MainWindow import Ui_MainWindow
 from src.BaseAdjustDialog import BaseAdjustDialog
+from src.BaseRotateDialog import BaseRotateDialog
 from PyQt5.QtWidgets import (QWidget,QApplication,QMainWindow,QFileDialog)
 from PyQt5 import uic
 import sys
@@ -82,10 +83,10 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.actionOpenImg.triggered.connect(self._openImg)
         self.actionClear.triggered.connect(self._clear)
         self.actionClearDraw.triggered.connect(self._clearDraw)
-        self.actionClockWise.triggered.connect(partial(self._wiseAction,'clock'))
-        self.actionAntiClockWise.triggered.connect(partial(self._wiseAction,'antiClock'))
-        self.actionVerFilp.triggered.connect(partial(self._wiseAction,'verFilp'))
-        self.actionHorFilp.triggered.connect(partial(self._wiseAction,'horFilp'))
+        # self.actionClockWise.triggered.connect(partial(self._wiseAction,'clock'))
+        # self.actionAntiClockWise.triggered.connect(partial(self._wiseAction,'antiClock'))
+        # self.actionVerFilp.triggered.connect(partial(self._wiseAction,'verFilp'))
+        # self.actionHorFilp.triggered.connect(partial(self._wiseAction,'horFilp'))
 
         for toolBtn in self.toolBtns:
             toolBtn.clicked.connect(self._toolBoxClicked)
@@ -93,6 +94,8 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.preColorBtn.clicked.connect(self._choosePreColor)
         self.backColorBtn.clicked.connect(self._chooseBackColor)
         self.penSizeBtn.currentIndexChanged.connect(self._choosePenSize)
+
+        self.baseRotateBtn.clicked.connect(self._openBaseRotateDialog)
         self.baseAdjustBtn.clicked.connect(self._openBaseAdjustDialog)
 
         self.blurBtn.clicked.connect(self._blur)
@@ -148,20 +151,20 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.img = self.oriImg.copy()
         self._refreshBoard()
 
-    def _wiseAction(self,action):
-        if action == 'clock':
-            transform = QTransform()
-            transform.rotate(90)
-            self.img = self.img.transformed(transform)
-        elif action == 'antiClock':
-            transform = QTransform()
-            transform.rotate(-90)
-            self.img = self.img.transformed(transform)
-        elif action == 'verFilp':
-            self.img = self.img.mirrored(True,False)
-        else:
-            self.img = self.img.mirrored(False,True)
-        self._refreshBoard()
+    # def _wiseAction(self,action):
+    #     if action == 'clock':
+    #         transform = QTransform()
+    #         transform.rotate(90)
+    #         self.img = self.img.transformed(transform)
+    #     elif action == 'antiClock':
+    #         transform = QTransform()
+    #         transform.rotate(-90)
+    #         self.img = self.img.transformed(transform)
+    #     elif action == 'verFilp':
+    #         self.img = self.img.mirrored(True,False)
+    #     else:
+    #         self.img = self.img.mirrored(False,True)
+    #     self._refreshBoard()
 
     def _drawPen(self,event):
         boardPos = self._getPosFromGlobal(event.pos())
@@ -225,6 +228,34 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
 
     def _choosePenSize(self):
         self.penSize = int(self.penSizeBtn.currentText())
+
+    def _openBaseRotateDialog(self):
+        self.baseRotateDialog = BaseRotateDialog()
+        self.baseRotateDialog.rotateClockWiseBtnClicked.connect(self._rotateClockWise)
+        self.baseRotateDialog.rotateAntiClockWiseBtnClicked.connect(self._rotateAntiClockWise)
+        self.baseRotateDialog.rotateVerFlipBtnClicked.connect(self._rotateVerFlip)
+        self.baseRotateDialog.rotateHorFlipBtnClicked.connect(self._rotateHorFlip)
+        self.baseRotateDialog.show()
+
+    def _rotateClockWise(self):
+        transform = QTransform()
+        transform.rotate(90)
+        self.img = self.img.transformed(transform)
+        self._refreshBoard()
+
+    def _rotateAntiClockWise(self):
+        transform = QTransform()
+        transform.rotate(-90)
+        self.img = self.img.transformed(transform)
+        self._refreshBoard()
+
+    def _rotateVerFlip(self):
+        self.img = self.img.mirrored(True, False)
+        self._refreshBoard()
+
+    def _rotateHorFlip(self):
+        self.img = self.img.mirrored(False, True)
+        self._refreshBoard()
 
     def _openBaseAdjustDialog(self):
         self.baseAdjustDialog = BaseAdjustDialog()
