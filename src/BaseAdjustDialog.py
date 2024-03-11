@@ -28,9 +28,6 @@ class BaseAdjustDialog(QDialog,Ui_baseAdjustDialog):
         self.sliderLabels = [self.brightLabel, self.saturabilityLabel, self.contrastLabel, self.warmLabel]
 
     def _establishConnections(self):
-        self.dialogBtnBox.accepted.connect(self._dialogAccepted)
-        self.dialogBtnBox.rejected.connect(self._dialogRejected)
-
         for slider in self.sliders:
             slider.valueChanged.connect(partial(self._sliderValueChanged,slider))
 
@@ -38,6 +35,9 @@ class BaseAdjustDialog(QDialog,Ui_baseAdjustDialog):
         self.warmSlider.sliderReleased.connect(self._warmSliderReleased)
         self.saturabilitySlider.sliderReleased.connect(self._saturabilitySliderReleased)
         self.contrastSlider.sliderReleased.connect(self._contrastSliderReleased)
+
+        self.dialogBtnBox.accepted.connect(self._dialogAccepted)
+        self.dialogBtnBox.rejected.connect(self._dialogRejected)
 
     def _sliderValueChanged(self,slider):
         self.sliderLabels[self.sliders.index(slider)].setNum(slider.value())
