@@ -25,11 +25,11 @@ class Ui_baseNewDialog(object):
         self.label_3.setAlignment(QtCore.Qt.AlignCenter)
         self.label_3.setObjectName("label_3")
         self.gridLayout.addWidget(self.label_3, 1, 0, 1, 1)
-        self.buttonBox = QtWidgets.QDialogButtonBox(baseNewDialog)
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName("buttonBox")
-        self.gridLayout.addWidget(self.buttonBox, 2, 0, 1, 3)
+        self.dialogBtnBox = QtWidgets.QDialogButtonBox(baseNewDialog)
+        self.dialogBtnBox.setOrientation(QtCore.Qt.Horizontal)
+        self.dialogBtnBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.dialogBtnBox.setObjectName("dialogBtnBox")
+        self.gridLayout.addWidget(self.dialogBtnBox, 2, 0, 1, 3)
         self.label_2 = QtWidgets.QLabel(baseNewDialog)
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 0, 2, 1, 1)
@@ -48,8 +48,8 @@ class Ui_baseNewDialog(object):
         self.gridLayout.addWidget(self.spinBoxWidth, 0, 1, 1, 1)
 
         self.retranslateUi(baseNewDialog)
-        self.buttonBox.accepted.connect(baseNewDialog.accept) # type: ignore
-        self.buttonBox.rejected.connect(baseNewDialog.reject) # type: ignore
+        self.dialogBtnBox.accepted.connect(baseNewDialog.accept) # type: ignore
+        self.dialogBtnBox.rejected.connect(baseNewDialog.reject) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(baseNewDialog)
 
     def retranslateUi(self, baseNewDialog):
