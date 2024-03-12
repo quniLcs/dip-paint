@@ -1,6 +1,7 @@
 # coding = utf-8
 
 from src.view.MainWindow import Ui_MainWindow
+from src.BaseNewDialog import BaseNewDialog
 from src.BaseAdjustDialog import BaseAdjustDialog
 from src.BaseRotateDialog import BaseRotateDialog
 from PyQt5.QtWidgets import (QWidget,QApplication,QMainWindow,QFileDialog)
@@ -127,6 +128,16 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.scrollAreaWidgetContents.resize(pix.size())
 
     def _new(self):
+        self.baseNewDialog = BaseNewDialog()
+        self.baseNewDialog.dialogRejected.connect(self._baseNewDialogRejected)
+        self.baseNewDialog.dialogAccepted.connect(self._baseNewDialogAccepted)
+        self.baseNewDialog.show()
+
+    def _baseNewDialogRejected(self):
+        pass
+
+    def _baseNewDialogAccepted(self, width, height):
+        self.img = QImage(QSize(width, height), QImage.Format_RGB32)
         self.img.fill(Qt.white)
         self.bufferImg = self.img.copy()
         self.oriImg = self.img.copy()
