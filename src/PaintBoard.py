@@ -186,9 +186,11 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
 
     def _drawBucket(self,event):
         boardPos = self._getPosFromGlobal(event.pos())
-        fillPositions = ImageUtil.floodFill(self.img,boardPos)
-        painter = self._initPainter()
-        [painter.drawPoint(x,y) for x,y in fillPositions]
+        self.img = ImageUtil.drawBucket(self.img, boardPos, QColor(self.penColor))
+        self._refreshBoard()
+        # fillPositions = ImageUtil.floodFill(self.img,boardPos)
+        # painter = self._initPainter()
+        # [painter.drawPoint(x,y) for x,y in fillPositions]  # too slow
 
     def _drawRect(self,event):
         boardPos = self._getPosFromGlobal(event.pos())
