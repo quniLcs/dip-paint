@@ -136,6 +136,7 @@ class PaintBoard(QMainWindow, Ui_MainWindow):
         self.board.resize(pix.size())
         self.board.setPixmap(pix)
         self.scrollAreaWidgetContents.resize(pix.size())
+        self.imgSizeLabel.setText('(%d,%d)' % (self.img.width(), self.img.height()))
 
     def _new(self):
         self.baseNewDialog = BaseNewDialog()
