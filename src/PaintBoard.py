@@ -64,7 +64,7 @@ class PaintBoard(QMainWindow, Ui_MainWindow):
         if 0 <= boardPos.x() <= self.img.width() and 0 <= boardPos.y() <= self.img.height():
             self.mousePosLabel.setText('(%d,%d)' % (boardPos.x(), boardPos.y()))
 
-        if event.buttons() and Qt.LeftButton and self.drawing:
+        if event.buttons() and self.drawing:
             for toolBtn, toolBtnEvent in zip(self.toolBtns, self.toolBtnEvents):
                 if toolBtn.isChecked():
                     toolBtnEvent(event)
