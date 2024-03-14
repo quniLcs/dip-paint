@@ -55,13 +55,17 @@ class PaintBoard(QMainWindow, Ui_MainWindow):
         if event.button() == Qt.LeftButton or event.button() == Qt.RightButton:
             self.endPoint = self._getPosFromGlobal(event.pos())
             self.drawing = False
-            [toolBtnEvent(event) for toolBtn,toolBtnEvent in  zip(self.toolBtns,self.toolBtnEvents) if toolBtn.isChecked()]
+            for toolBtn, toolBtnEvent in zip(self.toolBtns, self.toolBtnEvents):
+                if toolBtn.isChecked():
+                    toolBtnEvent(event)
 
     def mouseMoveEvent(self, event: QMouseEvent) -> None:
         boardPos = self._getPosFromGlobal(event.pos())
         self.mousePosLabel.setText('(%d,%d)' % (boardPos.x(), boardPos.y()))
         if event.buttons() and Qt.LeftButton and self.drawing:
-            [toolBtnEvent(event) for toolBtn,toolBtnEvent in  zip(self.toolBtns,self.toolBtnEvents) if toolBtn.isChecked()]
+            for toolBtn, toolBtnEvent in zip(self.toolBtns, self.toolBtnEvents):
+                if toolBtn.isChecked():
+                    toolBtnEvent(event)
             self.update()
 
     def paintEvent(self, event: QPaintEvent) -> None:
@@ -74,7 +78,10 @@ class PaintBoard(QMainWindow, Ui_MainWindow):
     def _getPosFromGlobal(self, pos):
         globalPos = self.mapToGlobal(pos)
         boardPos = self.board.mapFromGlobal(globalPos)
-        return boardPos
+        x = int(boardPos.x() / self.imgRatio)
+        y = int(boardPos.y() / self.imgRatio)
+        imgPos = QPoint(x, y)
+        return imgPos
 
     def _initDefaultBoard(self):
         self.img = QImage(self.scrollAreaWidgetContents.size(), QImage.Format_RGB32)
