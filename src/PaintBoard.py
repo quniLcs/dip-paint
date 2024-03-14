@@ -3,6 +3,7 @@
 from src.view.MainWindow import Ui_MainWindow
 from src.BaseNewDialog import BaseNewDialog
 from src.BaseAdjustDialog import BaseAdjustDialog
+from src.BaseResizeDialog import BaseResizeDialog
 from src.BaseRotateDialog import BaseRotateDialog
 from PyQt5.QtWidgets import (QWidget,QApplication,QMainWindow,QFileDialog)
 from PyQt5 import uic
@@ -97,6 +98,7 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.penSizeBtn.currentIndexChanged.connect(self._choosePenSize)
 
         self.baseRotateBtn.clicked.connect(self._openBaseRotateDialog)
+        self.baseResizeBtn.clicked.connect(self._openBaseResizeDialog)
         self.baseAdjustBtn.clicked.connect(self._openBaseAdjustDialog)
 
         self.blurBtn.clicked.connect(self._blur)
@@ -268,6 +270,19 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
 
     def _rotateHorFlip(self):
         self.img = self.img.mirrored(False, True)
+        self._refreshBoard()
+
+    def _openBaseResizeDialog(self):
+        self.baseResizeDialog = BaseResizeDialog()
+        self.baseResizeDialog.dialogRejected.connect(self._baseResizeDialogRejected)
+        self.baseResizeDialog.dialogAccepted.connect(self._baseResizeDialogAccepted)
+        self.baseResizeDialog.show()
+
+    def _baseResizeDialogRejected(self):
+        pass
+
+    def _baseResizeDialogAccepted(self, width, height):
+        self.img = self.img.scaled(QSize(width, height), Qt.IgnoreAspectRatio)
         self._refreshBoard()
 
     def _openBaseAdjustDialog(self):
