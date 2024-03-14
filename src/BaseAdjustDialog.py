@@ -7,7 +7,7 @@ from src.view.BaseAdjustDialog import  Ui_baseAdjustDialog
 from functools import partial
 
 
-class BaseAdjustDialog(QDialog,Ui_baseAdjustDialog):
+class BaseAdjustDialog(QDialog, Ui_baseAdjustDialog):
 
     dialogRejected = pyqtSignal()
     dialogAccepted = pyqtSignal()
@@ -17,7 +17,7 @@ class BaseAdjustDialog(QDialog,Ui_baseAdjustDialog):
     saturabilitySliderReleased = pyqtSignal(object)
     contrastSliderReleased = pyqtSignal(object)
 
-    def __init__(self,*args,**kwargs):
+    def __init__(self, *args, **kwargs):
         super(BaseAdjustDialog, self).__init__(*args,**kwargs)
         self.setupUi(self)
         self._initParam()
@@ -39,7 +39,7 @@ class BaseAdjustDialog(QDialog,Ui_baseAdjustDialog):
         self.dialogBtnBox.accepted.connect(self._dialogAccepted)
         self.dialogBtnBox.rejected.connect(self._dialogRejected)
 
-    def _sliderValueChanged(self,slider):
+    def _sliderValueChanged(self, slider):
         self.sliderLabels[self.sliders.index(slider)].setNum(slider.value())
 
     def _brightSliderReleased(self):
@@ -67,11 +67,3 @@ class BaseAdjustDialog(QDialog,Ui_baseAdjustDialog):
 
     def _dialogRejected(self):
         self.dialogRejected.emit()
-
-
-
-
-
-
-
-

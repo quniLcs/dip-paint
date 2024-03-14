@@ -8,12 +8,12 @@ from src.view.BaseResizeDialog import  Ui_baseResizeDialog
 from functools import partial
 
 
-class BaseResizeDialog(QDialog,Ui_baseResizeDialog):
+class BaseResizeDialog(QDialog, Ui_baseResizeDialog):
 
     dialogRejected = pyqtSignal()
     dialogAccepted = pyqtSignal(object, object)
 
-    def __init__(self,*args,**kwargs):
+    def __init__(self, *args, **kwargs):
         super(BaseResizeDialog, self).__init__(*args,**kwargs)
         self.setupUi(self)
         self._establishConnections()

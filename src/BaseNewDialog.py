@@ -8,12 +8,12 @@ from src.view.BaseNewDialog import  Ui_baseNewDialog
 from functools import partial
 
 
-class BaseNewDialog(QDialog,Ui_baseNewDialog):
+class BaseNewDialog(QDialog, Ui_baseNewDialog):
 
     dialogRejected = pyqtSignal()
     dialogAccepted = pyqtSignal(object, object)
 
-    def __init__(self,*args,**kwargs):
+    def __init__(self, *args, **kwargs):
         super(BaseNewDialog, self).__init__(*args,**kwargs)
         self.setupUi(self)
         self._establishConnections()

@@ -8,14 +8,14 @@ from src.view.BaseRotateDialog import  Ui_baseRotateDialog
 from functools import partial
 
 
-class BaseRotateDialog(QDialog,Ui_baseRotateDialog):
+class BaseRotateDialog(QDialog, Ui_baseRotateDialog):
 
     rotateClockWiseBtnClicked = pyqtSignal()
     rotateAntiClockWiseBtnClicked = pyqtSignal()
     rotateVerFlipBtnClicked = pyqtSignal()
     rotateHorFlipBtnClicked = pyqtSignal()
 
-    def __init__(self,*args,**kwargs):
+    def __init__(self, *args, **kwargs):
         super(BaseRotateDialog, self).__init__(*args,**kwargs)
         self.setupUi(self)
         self._establishConnections()

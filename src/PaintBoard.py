@@ -15,9 +15,9 @@ from src.util import ImageUtil
 from functools import partial
 
 
-class PaintBoard(QMainWindow,Ui_MainWindow):
+class PaintBoard(QMainWindow, Ui_MainWindow):
 
-    def __init__(self,*args,**kwargs):
+    def __init__(self, *args, **kwargs):
         super(PaintBoard, self).__init__(*args,**kwargs)
         self.setupUi(self)
         # uic.loadUi('./view/MainWindow.ui',self)
@@ -29,12 +29,15 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
     def _initParam(self):
         self.drawing = False
         self.adjusting = False
+
         self.lastPoint = QPoint()
         self.endPoint = QPoint()
         self.penSize = 2
         self.penColor = Qt.black
         self.preColor = Qt.black
         self.backColor = Qt.white
+        self.imgRatio = 1.0
+
         self.toolBtns = [self.penBtn,self.bucketBtn,self.rectBtn,self.lineBtn,self.ellipseBtn,self.eraseButton]
         self.toolBtnEvents = [self._drawPen,self._drawBucket,self._drawRect,self._drawLine,self._drawEllipse,self._drawErase]
 
@@ -66,7 +69,7 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
             pix = QPixmap.fromImage(self.img)
         self.board.setPixmap(pix)
 
-    def _getPosFromGlobal(self,pos):
+    def _getPosFromGlobal(self, pos):
         globalPos = self.mapToGlobal(pos)
         boardPos = self.board.mapFromGlobal(globalPos)
         return boardPos
@@ -114,7 +117,7 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         toolBtn = self.sender()
         toolBtn.setChecked(True)
 
-    def _initPainter(self,board = None):
+    def _initPainter(self, board = None):
         painter = QPainter(board or self.img)
         painter.setRenderHint(QPainter.Antialiasing, True)
         painter.setPen(QPen(self.penColor, self.penSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
@@ -179,14 +182,14 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
     #         self.img = self.img.mirrored(False,True)
     #     self._refreshBoard()
 
-    def _drawPen(self,event):
+    def _drawPen(self, event):
         boardPos = self._getPosFromGlobal(event.pos())
         painter = self._initPainter()
         painter.drawLine(self.lastPoint, boardPos)
         self.lastPoint = boardPos
         self.update()
 
-    def _drawBucket(self,event):
+    def _drawBucket(self, event):
         boardPos = self._getPosFromGlobal(event.pos())
         self.img = ImageUtil.drawBucket(self.img, boardPos, QColor(self.penColor))
         self._refreshBoard()
@@ -194,7 +197,7 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         # painter = self._initPainter()
         # [painter.drawPoint(x,y) for x,y in fillPositions]  # too slow
 
-    def _drawRect(self,event):
+    def _drawRect(self, event):
         boardPos = self._getPosFromGlobal(event.pos())
         if self.drawing:
             self.bufferImg = self.img.copy()
@@ -204,7 +207,7 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
             painter = self._initPainter()
             painter.drawRect(QRect(self.startPoint, self.endPoint))
 
-    def _drawLine(self,event):
+    def _drawLine(self, event):
         boardPos = self._getPosFromGlobal(event.pos())
         if self.drawing:
             self.bufferImg = self.img.copy()
@@ -214,7 +217,7 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
             painter = self._initPainter()
             painter.drawLine(self.startPoint, self.endPoint)
 
-    def _drawEllipse(self,event):
+    def _drawEllipse(self, event):
         boardPos = self._getPosFromGlobal(event.pos())
         if self.drawing:
             self.bufferImg = self.img.copy()
@@ -224,7 +227,7 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
             painter = self._initPainter()
             painter.drawEllipse(QRect(self.startPoint, self.endPoint))
 
-    def _drawErase(self,event):
+    def _drawErase(self, event):
         self.penColor = self.backColor
         self._drawPen(event)
 
@@ -304,22 +307,22 @@ class PaintBoard(QMainWindow,Ui_MainWindow):
         self.img = self.bufferImg
         self.update()
 
-    def _adjustBright(self,value):
+    def _adjustBright(self, value):
         self.adjusting = True
         self.bufferImg = ImageUtil.adjustBrightFaster(self.img, value)
         self.update()
 
-    def _adjustWarm(self,value):
+    def _adjustWarm(self, value):
         self.adjusting = True
         self.bufferImg = ImageUtil.adjustWarmFaster(self.img, value)
         self.update()
 
-    def _adjustSaturation(self,value):
+    def _adjustSaturation(self, value):
         self.adjusting = True
         self.bufferImg = ImageUtil.adjustSaturationFaster(self.img, value)
         self.update()
 
-    def _adjustContrast(self,value):
+    def _adjustContrast(self, value):
         self.adjusting = True
         self.bufferImg = ImageUtil.adjustContrastFaster(self.img, value)
         self.update()
