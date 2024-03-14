@@ -124,7 +124,7 @@ class Ui_MainWindow(object):
         self.lineBtn.setObjectName("lineBtn")
         self.gridLayout_2.addWidget(self.lineBtn, 1, 0, 1, 1)
         self.preColorBtn = QtWidgets.QPushButton(self.toolBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.preColorBtn.sizePolicy().hasHeightForWidth())
