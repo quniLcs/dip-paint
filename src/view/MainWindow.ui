@@ -34,10 +34,10 @@
        <property name="leftMargin">
         <number>10</number>
        </property>
-       <item row="13" column="0" colspan="2">
-        <widget class="QPushButton" name="sharpenBtn">
+       <item row="8" column="0" colspan="2">
+        <widget class="QPushButton" name="grayBtn">
          <property name="text">
-          <string>锐化</string>
+          <string>灰度化</string>
          </property>
         </widget>
        </item>
@@ -45,30 +45,6 @@
         <widget class="QLabel" name="pxLabel">
          <property name="text">
           <string>px</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0" colspan="2">
-        <widget class="QPushButton" name="cannyBtn">
-         <property name="text">
-          <string>边缘检测</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0" colspan="2">
-        <widget class="QPushButton" name="grayBtn">
-         <property name="text">
-          <string>灰度化</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QPushButton" name="backColorBtn">
-         <property name="styleSheet">
-          <string notr="true">background-color:#FFFFFF</string>
-         </property>
-         <property name="text">
-          <string/>
          </property>
         </widget>
        </item>
@@ -98,24 +74,76 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="0" colspan="2">
-        <widget class="QPushButton" name="invertBtn">
+       <item row="0" column="0">
+        <widget class="QToolButton" name="penBtn">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text">
-          <string>反相</string>
+          <string>画笔</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../imgs.qrc">
+           <normaloff>:/img/img/pen.png</normaloff>:/img/img/pen.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="12" column="0" colspan="2">
-        <widget class="QPushButton" name="blurBtn">
-         <property name="text">
-          <string>模糊</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="2">
+       <item row="7" column="0" colspan="2">
         <widget class="QPushButton" name="baseAdjustBtn">
          <property name="text">
           <string>图像调节</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QToolButton" name="eraseButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>橡皮擦</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../imgs.qrc">
+           <normaloff>:/img/img/erase.png</normaloff>:/img/img/erase.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0" colspan="2">
+        <widget class="QPushButton" name="binaryBtn">
+         <property name="text">
+          <string>二值化</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0" colspan="2">
+        <widget class="QPushButton" name="blurBtn">
+         <property name="text">
+          <string>模糊</string>
          </property>
         </widget>
        </item>
@@ -164,29 +192,27 @@
          </item>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QToolButton" name="penBtn">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+       <item row="10" column="0" colspan="2">
+        <widget class="QPushButton" name="invertBtn">
+         <property name="text">
+          <string>反相</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="2">
+        <widget class="QPushButton" name="baseRotateBtn">
+         <property name="text">
+          <string>图像旋转</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QPushButton" name="backColorBtn">
+         <property name="styleSheet">
+          <string notr="true">background-color:#FFFFFF</string>
          </property>
          <property name="text">
-          <string>画笔</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../../imgs.qrc">
-           <normaloff>:/img/img/pen.png</normaloff>:/img/img/pen.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
+          <string/>
          </property>
         </widget>
        </item>
@@ -204,98 +230,6 @@
          <property name="icon">
           <iconset resource="../../imgs.qrc">
            <normaloff>:/img/img/line.png</normaloff>:/img/img/line.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0" colspan="2">
-        <widget class="QPushButton" name="embossBtn">
-         <property name="text">
-          <string>浮雕</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QToolButton" name="eraseButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>橡皮擦</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../../imgs.qrc">
-           <normaloff>:/img/img/erase.png</normaloff>:/img/img/erase.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QToolButton" name="bucketBtn">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>喷桶</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../../imgs.qrc">
-           <normaloff>:/img/img/bucket.png</normaloff>:/img/img/bucket.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0" colspan="2">
-        <widget class="QPushButton" name="binaryBtn">
-         <property name="text">
-          <string>二值化</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QToolButton" name="rectBtn">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>矩形</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../../imgs.qrc">
-           <normaloff>:/img/img/rect.png</normaloff>:/img/img/rect.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -330,10 +264,83 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="QPushButton" name="baseRotateBtn">
+       <item row="1" column="1">
+        <widget class="QToolButton" name="rectBtn">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text">
-          <string>图像旋转</string>
+          <string>矩形</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../imgs.qrc">
+           <normaloff>:/img/img/rect.png</normaloff>:/img/img/rect.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="0" colspan="2">
+        <widget class="QPushButton" name="sharpenBtn">
+         <property name="text">
+          <string>锐化</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QToolButton" name="bucketBtn">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>喷桶</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../imgs.qrc">
+           <normaloff>:/img/img/bucket.png</normaloff>:/img/img/bucket.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0" colspan="2">
+        <widget class="QPushButton" name="embossBtn">
+         <property name="text">
+          <string>浮雕</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0" colspan="2">
+        <widget class="QPushButton" name="cannyBtn">
+         <property name="text">
+          <string>边缘检测</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="2">
+        <widget class="QPushButton" name="baseResizeBtn">
+         <property name="text">
+          <string>图像缩放</string>
          </property>
         </widget>
        </item>
