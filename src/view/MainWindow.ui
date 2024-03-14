@@ -10,6 +10,9 @@
     <height>631</height>
    </rect>
   </property>
+  <property name="mouseTracking">
+   <bool>true</bool>
+  </property>
   <property name="windowTitle">
    <string>Paint</string>
   </property>
@@ -416,10 +419,10 @@
        <item row="0" column="0" colspan="3">
         <widget class="QScrollArea" name="scrollArea">
          <property name="mouseTracking">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="focusPolicy">
-          <enum>Qt::TabFocus</enum>
+          <enum>Qt::NoFocus</enum>
          </property>
          <property name="lineWidth">
           <number>0</number>
@@ -430,7 +433,7 @@
          <widget class="QWidget" name="scrollAreaWidgetContents">
           <property name="geometry">
            <rect>
-            <x>0</x>
+            <x>-2</x>
             <y>0</y>
             <width>658</width>
             <height>413</height>

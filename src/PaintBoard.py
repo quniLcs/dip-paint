@@ -58,6 +58,8 @@ class PaintBoard(QMainWindow, Ui_MainWindow):
             [toolBtnEvent(event) for toolBtn,toolBtnEvent in  zip(self.toolBtns,self.toolBtnEvents) if toolBtn.isChecked()]
 
     def mouseMoveEvent(self, event: QMouseEvent) -> None:
+        boardPos = self._getPosFromGlobal(event.pos())
+        self.mousePosLabel.setText('(%d,%d)' % (boardPos.x(), boardPos.y()))
         if event.buttons() and Qt.LeftButton and self.drawing:
             [toolBtnEvent(event) for toolBtn,toolBtnEvent in  zip(self.toolBtns,self.toolBtnEvents) if toolBtn.isChecked()]
             self.update()
