@@ -99,6 +99,7 @@ class PaintBoard(QMainWindow, Ui_MainWindow):
         self.preColorBtn.clicked.connect(self._choosePreColor)
         self.backColorBtn.clicked.connect(self._chooseBackColor)
         self.penSizeBtn.currentIndexChanged.connect(self._choosePenSize)
+        self.imgRatioBtn.currentIndexChanged.connect(self._chooseImgRatio)
 
         self.baseRotateBtn.clicked.connect(self._openBaseRotateDialog)
         self.baseResizeBtn.clicked.connect(self._openBaseResizeDialog)
@@ -127,7 +128,11 @@ class PaintBoard(QMainWindow, Ui_MainWindow):
         [btn.setChecked(False) for btn in self.toolBtns]
 
     def _refreshBoard(self):
-        pix = QPixmap.fromImage(self.img)
+        width = int(self.imgRatio * self.img.width())
+        height = int(self.imgRatio * self.img.height())
+        img = self.img.scaled(QSize(width, height), Qt.IgnoreAspectRatio)
+        pix = QPixmap.fromImage(img)
+
         self.board.resize(pix.size())
         self.board.setPixmap(pix)
         self.scrollAreaWidgetContents.resize(pix.size())
@@ -246,6 +251,12 @@ class PaintBoard(QMainWindow, Ui_MainWindow):
 
     def _choosePenSize(self):
         self.penSize = int(self.penSizeBtn.currentText())
+
+    def _chooseImgRatio(self):
+        text = self.imgRatioBtn.currentText()
+        assert text.endswith('%')
+        self.imgRatio = float(text[:-1]) / 100
+        self._refreshBoard()
 
     def _openBaseRotateDialog(self):
         self.baseRotateDialog = BaseRotateDialog()
