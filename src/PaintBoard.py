@@ -71,7 +71,7 @@ class PaintBoard(QMainWindow, Ui_MainWindow):
             self.update()
 
     def paintEvent(self, event: QPaintEvent) -> None:
-        if self.drawing and True in [btn.isChecked() for btn in self.toolBtns[2:5]] or self.adjusting:
+        if self.drawing and any([btn.isChecked() for btn in self.toolBtns[2:5]]) or self.adjusting:
             pix = QPixmap.fromImage(self.bufferImg)
         else:
             pix = QPixmap.fromImage(self.img)
