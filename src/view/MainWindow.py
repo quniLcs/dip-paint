@@ -209,7 +209,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(False)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 658, 413))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 600, 400))
         self.scrollAreaWidgetContents.setMouseTracking(True)
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
