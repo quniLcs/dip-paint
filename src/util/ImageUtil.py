@@ -8,8 +8,40 @@ import numpy as np
 
 def crop(image, x1, y1, x2, y2):
     src = QImageToCvMat(image)
+    dst = np.ones((y2 - y1, x2 - x1, 4), np.uint8) * 255
 
-    dst = np.zeros((x2 - x1, y2 - y1), np.uint8)
+    width = image.width()
+    height = image.height()
+
+    if x1 < 0:
+        x1_src = 0
+        x1_dst = -x1
+    else:
+        x1_src = x1
+        x1_dst = 0
+
+    if y1 < 0:
+        y1_src = 0
+        y1_dst = -y1
+    else:
+        y1_src = y1
+        y1_dst = 0
+
+    if x2 > width:
+        x2_src = width
+        x2_dst = width - x1
+    else:
+        x2_src = x2
+        x2_dst = x2 - x1
+
+    if y2 > height:
+        y2_src = height
+        y2_dst = height - y1
+    else:
+        y2_src = y2
+        y2_dst = y2 - y1
+
+    dst[y1_dst: y2_dst, x1_dst: x2_dst] = src[y1_src: y2_src, x1_src: x2_src]
     return CvMatToQImage(dst)
 
 

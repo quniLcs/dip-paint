@@ -304,6 +304,8 @@ class PaintBoard(QMainWindow, Ui_MainWindow):
         self.baseCropDialog = BaseCropDialog()
         self.baseCropDialog.dialogRejected.connect(self._baseCropDialogRejected)
         self.baseCropDialog.dialogAccepted.connect(self._baseCropDialogAccepted)
+        self.baseCropDialog.spinBoxX2.setValue(self.img.width())
+        self.baseCropDialog.spinBoxY2.setValue(self.img.height())
         self.baseCropDialog.show()
 
     def _baseCropDialogRejected(self):
