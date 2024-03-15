@@ -322,6 +322,8 @@ class PaintBoard(QMainWindow, Ui_MainWindow):
         self.baseResizeDialog = BaseResizeDialog()
         self.baseResizeDialog.dialogRejected.connect(self._baseResizeDialogRejected)
         self.baseResizeDialog.dialogAccepted.connect(self._baseResizeDialogAccepted)
+        self.baseResizeDialog.spinBoxWidth.setValue(self.img.width())
+        self.baseResizeDialog.spinBoxHeight.setValue(self.img.height())
         self.baseResizeDialog.show()
 
     def _baseResizeDialogRejected(self):
