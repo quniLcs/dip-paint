@@ -174,7 +174,7 @@ def CvMatToQImage(cvMat):
 
 def blur(image: QImage):
     src = QImageToCvMat(image)
-    blurImg = cv.GaussianBlur(src, (0, 0), sigmaX=15)
+    blurImg = cv.GaussianBlur(src, (3, 3), sigmaX=0)
     return CvMatToQImage(blurImg)
 
 
