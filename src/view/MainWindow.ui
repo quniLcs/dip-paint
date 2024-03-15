@@ -41,75 +41,48 @@
         <number>10</number>
        </property>
        <item row="8" column="0" colspan="2">
-        <widget class="QPushButton" name="grayBtn">
-         <property name="text">
-          <string>灰度化</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLabel" name="pxLabel">
-         <property name="text">
-          <string>px</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QToolButton" name="ellipseBtn">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>椭圆</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../../imgs.qrc">
-           <normaloff>:/img/img/ellipse.png</normaloff>:/img/img/ellipse.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QToolButton" name="penBtn">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>画笔</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../../imgs.qrc">
-           <normaloff>:/img/img/pen.png</normaloff>:/img/img/pen.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0" colspan="2">
         <widget class="QPushButton" name="baseAdjustBtn">
          <property name="text">
           <string>图像调节</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="2">
+        <widget class="QPushButton" name="baseRotateBtn">
+         <property name="text">
+          <string>图像旋转</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QPushButton" name="preColorBtn">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #000000</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QPushButton" name="backColorBtn">
+         <property name="styleSheet">
+          <string notr="true">background-color:#FFFFFF</string>
+         </property>
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </item>
@@ -139,17 +112,62 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="0" colspan="2">
-        <widget class="QPushButton" name="binaryBtn">
+       <item row="7" column="0" colspan="2">
+        <widget class="QPushButton" name="baseResizeBtn">
          <property name="text">
-          <string>二值化</string>
+          <string>图像缩放</string>
          </property>
         </widget>
        </item>
-       <item row="13" column="0" colspan="2">
-        <widget class="QPushButton" name="blurBtn">
+       <item row="1" column="1">
+        <widget class="QToolButton" name="rectBtn">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text">
-          <string>模糊</string>
+          <string>矩形</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../imgs.qrc">
+           <normaloff>:/img/img/rect.png</normaloff>:/img/img/rect.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QToolButton" name="lineBtn">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>直线</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../imgs.qrc">
+           <normaloff>:/img/img/line.png</normaloff>:/img/img/line.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -195,32 +213,36 @@
          </item>
         </widget>
        </item>
-       <item row="10" column="0" colspan="2">
+       <item row="15" column="0" colspan="2">
+        <widget class="QPushButton" name="sharpenBtn">
+         <property name="text">
+          <string>锐化</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0" colspan="2">
         <widget class="QPushButton" name="invertBtn">
          <property name="text">
           <string>反相</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="QPushButton" name="baseRotateBtn">
+       <item row="13" column="0" colspan="2">
+        <widget class="QPushButton" name="cannyBtn">
          <property name="text">
-          <string>图像旋转</string>
+          <string>边缘检测</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
-        <widget class="QPushButton" name="backColorBtn">
-         <property name="styleSheet">
-          <string notr="true">background-color:#FFFFFF</string>
-         </property>
+       <item row="9" column="0" colspan="2">
+        <widget class="QPushButton" name="grayBtn">
          <property name="text">
-          <string/>
+          <string>灰度化</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QToolButton" name="lineBtn">
+       <item row="0" column="0">
+        <widget class="QToolButton" name="penBtn">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -228,11 +250,11 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>直线</string>
+          <string>画笔</string>
          </property>
          <property name="icon">
           <iconset resource="../../imgs.qrc">
-           <normaloff>:/img/img/line.png</normaloff>:/img/img/line.png</iconset>
+           <normaloff>:/img/img/pen.png</normaloff>:/img/img/pen.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -242,61 +264,6 @@
          </property>
          <property name="checkable">
           <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QPushButton" name="preColorBtn">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: #000000</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QToolButton" name="rectBtn">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>矩形</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../../imgs.qrc">
-           <normaloff>:/img/img/rect.png</normaloff>:/img/img/rect.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="0" colspan="2">
-        <widget class="QPushButton" name="sharpenBtn">
-         <property name="text">
-          <string>锐化</string>
          </property>
         </widget>
        </item>
@@ -326,24 +293,64 @@
          </property>
         </widget>
        </item>
-       <item row="11" column="0" colspan="2">
+       <item row="12" column="0" colspan="2">
         <widget class="QPushButton" name="embossBtn">
          <property name="text">
           <string>浮雕</string>
          </property>
         </widget>
        </item>
-       <item row="12" column="0" colspan="2">
-        <widget class="QPushButton" name="cannyBtn">
+       <item row="3" column="1">
+        <widget class="QLabel" name="pxLabel">
          <property name="text">
-          <string>边缘检测</string>
+          <string>px</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0" colspan="2">
+        <widget class="QPushButton" name="binaryBtn">
+         <property name="text">
+          <string>二值化</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="0" colspan="2">
+        <widget class="QPushButton" name="blurBtn">
+         <property name="text">
+          <string>模糊</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QToolButton" name="ellipseBtn">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>椭圆</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../imgs.qrc">
+           <normaloff>:/img/img/ellipse.png</normaloff>:/img/img/ellipse.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
        <item row="6" column="0" colspan="2">
-        <widget class="QPushButton" name="baseResizeBtn">
+        <widget class="QPushButton" name="baseCropBtn">
          <property name="text">
-          <string>图像缩放</string>
+          <string>图像裁剪</string>
          </property>
         </widget>
        </item>
