@@ -50,7 +50,7 @@ def drawBucket(image, pos, fillColor):
     y = pos.y()
 
     src = QImageToCvMat(image)
-    targetColor = src[x, y]
+    targetColor = src[y, x]
     targetColorMask = (
             (src[:, :, 0] == targetColor[0]) &
             (src[:, :, 1] == targetColor[1]) &
@@ -63,7 +63,7 @@ def drawBucket(image, pos, fillColor):
                        [0, 1, 0]])
     fillMask = np.zeros_like(targetColorMask)
     current = np.zeros_like(targetColorMask)
-    current[x, y] = 1
+    current[y, x] = 1
 
     while current.any():
         fillMask |= current
