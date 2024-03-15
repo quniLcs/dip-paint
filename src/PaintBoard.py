@@ -3,6 +3,7 @@
 from src.view.MainWindow import Ui_MainWindow
 from src.BaseNewDialog import BaseNewDialog
 from src.BaseAdjustDialog import BaseAdjustDialog
+from src.BaseCropDialog import BaseCropDialog
 from src.BaseResizeDialog import BaseResizeDialog
 from src.BaseRotateDialog import BaseRotateDialog
 from PyQt5.QtWidgets import (QWidget,QApplication,QMainWindow,QFileDialog)
@@ -113,6 +114,7 @@ class PaintBoard(QMainWindow, Ui_MainWindow):
         self.imgRatioBtn.currentIndexChanged.connect(self._chooseImgRatio)
 
         self.baseRotateBtn.clicked.connect(self._openBaseRotateDialog)
+        self.baseCropBtn.clicked.connect(self._openBaseCropDialog)
         self.baseResizeBtn.clicked.connect(self._openBaseResizeDialog)
         self.baseAdjustBtn.clicked.connect(self._openBaseAdjustDialog)
 
@@ -296,6 +298,22 @@ class PaintBoard(QMainWindow, Ui_MainWindow):
 
     def _rotateHorFlip(self):
         self.img = self.img.mirrored(False, True)
+        self._refreshBoard()
+
+    def _openBaseCropDialog(self):
+        self.baseCropDialog = BaseCropDialog()
+        self.baseCropDialog.dialogRejected.connect(self._baseCropDialogRejected)
+        self.baseCropDialog.dialogAccepted.connect(self._baseCropDialogAccepted)
+        self.baseCropDialog.show()
+
+    def _baseCropDialogRejected(self):
+        pass
+
+    def _baseCropDialogAccepted(self, x1, y1, x2, y2):
+        if x1 > x2 or y1 > y2:
+            x1 = y1 = x2 = y2 = 0
+
+        self.img = ImageUtil.crop(self.img, x1, y1, x2, y2)
         self._refreshBoard()
 
     def _openBaseResizeDialog(self):

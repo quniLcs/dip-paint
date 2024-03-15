@@ -6,7 +6,14 @@ import numpy as np
 # import copy
 
 
-def drawBucket(image,pos,fillColor):
+def crop(image, x1, y1, x2, y2):
+    src = QImageToCvMat(image)
+
+    dst = np.zeros((x2 - x1, y2 - y1), np.uint8)
+    return CvMatToQImage(dst)
+
+
+def drawBucket(image, pos, fillColor):
     x = pos.x()
     y = pos.y()
 
@@ -39,7 +46,7 @@ def drawBucket(image,pos,fillColor):
     return CvMatToQImage(dst)
 
 
-def adjustBrightFaster(image:QImage,value) -> QImage:
+def adjustBrightFaster(image: QImage, value) -> QImage:
     src = QImageToCvMat(image)
     src = src.astype(np.int16)
 
@@ -54,7 +61,7 @@ def adjustBrightFaster(image:QImage,value) -> QImage:
     return CvMatToQImage(dst)
 
 
-def adjustWarmFaster(image:QImage,value) -> QImage:
+def adjustWarmFaster(image: QImage, value) -> QImage:
     src = QImageToCvMat(image)
     src = src.astype(np.int16)
 
@@ -74,7 +81,7 @@ def adjustWarmFaster(image:QImage,value) -> QImage:
     return CvMatToQImage(dst)
 
 
-def adjustSaturationFaster(image:QImage,value) -> QImage:
+def adjustSaturationFaster(image: QImage, value) -> QImage:
     src = QImageToCvMat(image)
     hls = cv.cvtColor(src, cv.COLOR_RGB2HLS)
     hls = hls.astype(np.int16)
@@ -92,7 +99,7 @@ def adjustSaturationFaster(image:QImage,value) -> QImage:
     return CvMatToQImage(dst)
 
 
-def adjustContrastFaster(image:QImage,value) -> QImage:
+def adjustContrastFaster(image: QImage, value) -> QImage:
     value /= 100.0
     if value >= 0:
         value = 1 / (1 - value) - 1
@@ -120,6 +127,7 @@ def QImageToCvMat(incomingImage):
     arr = np.frombuffer(ptr, np.uint8).reshape((height, width, 4))
     return arr.copy()
 
+
 def CvMatToQImage(cvMat):
     if len(cvMat.shape) == 2:
         # 灰度图是单通道，所以需要用Format_Indexed8
@@ -131,12 +139,14 @@ def CvMatToQImage(cvMat):
         bytesPerLine = channels * columns
         return QImage(cvMat.data, columns, rows, bytesPerLine, QImage.Format_RGBA8888)
 
-def blur(image:QImage):
+
+def blur(image: QImage):
     src = QImageToCvMat(image)
     blurImg = cv.GaussianBlur(src, (0, 0), sigmaX=15)
     return CvMatToQImage(blurImg)
 
-def sharpen(image:QImage):
+
+def sharpen(image: QImage):
     src = QImageToCvMat(image)
 
     kernel = np.array([[0, -1, 0],
@@ -149,25 +159,29 @@ def sharpen(image:QImage):
     # usm = cv.addWeighted(src, 1.5, blurImg, -0.5, 0)
     return CvMatToQImage(dst)
 
-def canny(image:QImage):
+
+def canny(image: QImage):
     src = QImageToCvMat(image)
     blurred = cv.GaussianBlur(src, (3, 3), 0)
     gray = cv.cvtColor(blurred, cv.COLOR_RGB2GRAY)
     edges = cv.Canny(gray, 50, 150)
     return CvMatToQImage(edges)
 
-def gray(image:QImage):
+
+def gray(image: QImage):
     src = QImageToCvMat(image)
     gray = cv.cvtColor(src, cv.COLOR_RGB2GRAY)
     return CvMatToQImage(gray)
 
-def binaryzation(image:QImage):
+
+def binaryzation(image: QImage):
     src = QImageToCvMat(image)
     gray = cv.cvtColor(src, cv.COLOR_RGB2GRAY)
     ret,thresh1 = cv.threshold(gray,127,255,cv.THRESH_BINARY)
     return CvMatToQImage(thresh1)
 
-def invert(image:QImage):
+
+def invert(image: QImage):
     src = QImageToCvMat(image)
     # res = cv.bitwise_not(src)
     # res = src.copy()
@@ -187,7 +201,8 @@ def invert(image:QImage):
         #         res[row, col] = (255 - src[row, col][0], 255 - src[row, col][1], 255 - src[row, col][2], src[row, col][3])
     return CvMatToQImage(res)
 
-def emboss(image:QImage):
+
+def emboss(image: QImage):
     src = QImageToCvMat(image)
     kernel = np.array([[-2, -1, 0],
                        [-1, 1, 1],
